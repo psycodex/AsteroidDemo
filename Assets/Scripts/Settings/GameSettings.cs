@@ -1,18 +1,41 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
-public class GameSettings : MonoBehaviour
+namespace Settings
 {
-    // Start is called before the first frame update
-    void Start()
+    [Serializable]
+    public class GameSettings
     {
-        
-    }
+        [Serializable]
+        public class ViewPrefabs
+        {
+            #region Fields
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+            [SerializeField] private GameObject privacyView;
+
+            #endregion
+
+            #region Properties
+
+            public GameObject PrivacyView => privacyView;
+
+            #endregion
+        }
+
+        #region Fields
+
+        [SerializeField] private Camera mainCamera;
+
+        [SerializeField] private ViewPrefabs views;
+
+        #endregion
+
+        #region Properties
+
+        public Camera MainCamera => mainCamera;
+
+        public ViewPrefabs Views => views;
+
+        #endregion
     }
 }
