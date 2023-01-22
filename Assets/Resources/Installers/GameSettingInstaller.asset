@@ -15,3 +15,7 @@ MonoBehaviour:
   settings:
     worldSetting:
       targetFps: 60
+    playerSetting:
+      moveSpeed: 5
+      shootInterval: 1
+      maxShootBullet: 3

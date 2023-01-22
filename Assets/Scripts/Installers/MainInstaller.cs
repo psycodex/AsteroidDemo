@@ -8,8 +8,6 @@ namespace Installers
     {
         [SerializeField] private GameSettings settings;
 
-        // [Inject] private GameScriptableSettings gameScriptableSettings;
-
         public override void InstallBindings()
         {
             BindSettings();
@@ -24,13 +22,36 @@ namespace Installers
 
         private void BindGame()
         {
+            Container.Bind<Bullet.BulletsPool>().AsSingle();
             Container.BindInterfacesAndSelfTo<Player>().FromComponentInHierarchy(settings.Views.Player).AsSingle();
             Container.BindInterfacesTo<PlayerHandler>().AsSingle();
+            Container.BindFactory<Bullet, Bullet.Factory>()
+                .FromPoolableMemoryPool<Bullet, BulletFacadePool>(
+                    poolBinder => poolBinder
+                        .WithInitialSize(5)
+                        // .WithMaxSize(100)
+                        .FromComponentInNewPrefab(settings.Views.BulletPrefab)
+                        .UnderTransform(settings.Views.Play.transform));
+            Container.BindFactory<Asteroid, Asteroid.Factory>()
+                .FromPoolableMemoryPool<Asteroid, AsteroidFacadePool>(
+                    poolBinder => poolBinder
+                        .WithInitialSize(5)
+                        // .WithMaxSize(100)
+                        .FromComponentInNewPrefab(settings.Views.AsteroidPrefab)
+                        .UnderTransform(settings.Views.Play.transform));
         }
 
         private void BindSignals()
         {
             SignalBusInstaller.Install(Container);
         }
+    }
+
+    internal class BulletFacadePool : MonoPoolableMemoryPool<IMemoryPool, Bullet>
+    {
+    }
+
+    internal class AsteroidFacadePool : MonoPoolableMemoryPool<IMemoryPool, Asteroid>
+    {
     }
 }
