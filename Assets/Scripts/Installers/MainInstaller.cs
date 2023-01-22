@@ -8,7 +8,7 @@ namespace Installers
     {
         [SerializeField] private GameSettings settings;
 
-        [Inject] private GameScriptableSettings gameScriptableSettings;
+        // [Inject] private GameScriptableSettings gameScriptableSettings;
 
         public override void InstallBindings()
         {
@@ -24,6 +24,8 @@ namespace Installers
 
         private void BindGame()
         {
+            Container.BindInterfacesAndSelfTo<Player>().FromComponentInHierarchy(settings.Views.Player).AsSingle();
+            Container.BindInterfacesTo<PlayerHandler>().AsSingle();
         }
 
         private void BindSignals()

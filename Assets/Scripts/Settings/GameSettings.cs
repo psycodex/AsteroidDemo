@@ -6,25 +6,25 @@ namespace Settings
     [Serializable]
     public class GameSettings
     {
+        [SerializeField] private Camera mainCamera;
+
         [Serializable]
         public class ViewPrefabs
         {
             #region Fields
 
-            [SerializeField] private GameObject privacyView;
+            [SerializeField] private GameObject player;
 
             #endregion
 
             #region Properties
 
-            public GameObject PrivacyView => privacyView;
+            public GameObject Player => player;
 
             #endregion
         }
 
         #region Fields
-
-        [SerializeField] private Camera mainCamera;
 
         [SerializeField] private ViewPrefabs views;
 
