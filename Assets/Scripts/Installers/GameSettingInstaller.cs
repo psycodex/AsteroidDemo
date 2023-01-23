@@ -74,6 +74,8 @@ namespace Installers
     [Serializable]
     public class AsteroidSetting
     {
+        [SerializeField] private int startingSpawnAsteroids = 6;
+        [SerializeField] private float asteroidSpawnIntervals = 1;
         [SerializeField] private float minAsteroids = 1;
         [SerializeField] private float maxAsteroids = 10;
 
@@ -83,5 +85,7 @@ namespace Installers
         public float MaxAsteroids => maxAsteroids;
         public float MinSpeed => minSpeed;
         public float MaxSpeed => maxSpeed;
+        public int StartingSpawnAsteroids => startingSpawnAsteroids;
+        public float AsteroidSpawnIntervals => asteroidSpawnIntervals;
     }
 }

@@ -1,5 +1,6 @@
 using Managers;
 using Settings;
+using UI;
 using UnityEngine;
 using Zenject;
 
@@ -23,11 +24,18 @@ namespace Installers
 
         private void BindGame()
         {
-            Container.Bind<Bullet.BulletsPool>().AsSingle();
-            Container.BindInterfacesAndSelfTo<Player>().FromComponentInHierarchy(settings.Views.Player).AsSingle();
+            Container.BindInterfacesAndSelfTo<WorldManager>().AsSingle();
             Container.BindInterfacesTo<PlayerHandler>().AsSingle();
             Container.BindInterfacesAndSelfTo<AsteroidManager>().AsSingle();
             Container.BindInterfacesAndSelfTo<GameManager>().AsSingle();
+            Container.Bind<Bullet.BulletsPool>().AsSingle();
+            Container.Bind<Asteroid.AsteroidsPool>().AsSingle();
+            Container.BindInterfacesAndSelfTo<HomeView>().FromComponentInHierarchy(settings.Views.HomeView).AsSingle();
+            Container.BindInterfacesAndSelfTo<GamePlayView>().FromComponentInHierarchy(settings.Views.GamePlayView)
+                .AsSingle();
+            Container.BindInterfacesAndSelfTo<GameOverView>().FromComponentInHierarchy(settings.Views.GameOverView)
+                .AsSingle();
+            Container.BindInterfacesAndSelfTo<Player>().FromComponentInHierarchy(settings.Views.Player).AsSingle();
             Container.BindFactory<Bullet, Bullet.Factory>()
                 .FromPoolableMemoryPool<Bullet, BulletFacadePool>(
                     poolBinder => poolBinder

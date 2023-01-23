@@ -2,21 +2,31 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Installers;
+using Managers;
 using Settings;
 using UnityEngine;
 using Zenject;
 using Zenject.SpaceFighter;
+using Random = UnityEngine.Random;
 
 public class Asteroid : MonoBehaviour, IPoolable<IMemoryPool>, IDisposable
 {
     [Inject] private GameSettings _gameSettings;
     [Inject] private GameScriptableSettings _scriptableSettings;
+    [Inject] private WorldManager _worldManager;
     private IMemoryPool _pool;
+
+    public Rigidbody2D Rigidbody2D { get; private set; }
+
+    public Collider2D Collider2D { get; private set; }
+    // public Transform Transform { get; private set; }
 
     public void OnSpawned(IMemoryPool p2)
     {
         _pool = p2;
-        GetRandomVelocity();
+        GetRandomPositionAndVelocity();
+        Rigidbody2D = GetComponent<Rigidbody2D>();
+        Collider2D = GetComponent<Collider2D>();
     }
 
     public void OnDespawned()
@@ -30,14 +40,17 @@ public class Asteroid : MonoBehaviour, IPoolable<IMemoryPool>, IDisposable
 
     private void Update()
     {
-        CheckForTeleport();
+        // CheckForTeleport();
     }
 
-    private void GetRandomVelocity()
+    private void GetRandomPositionAndVelocity()
     {
         var minSpeed = _scriptableSettings.Asteroid.MinSpeed;
         var maxSpeed = _scriptableSettings.Asteroid.MaxSpeed;
-        
+
+        var x = Random.Range(-_worldManager.Width, _worldManager.Width);
+        var y = Random.Range(-_worldManager.Height, _worldManager.Height);
+        transform.position = new Vector3(x, y, 0);
     }
 
     private void CheckForTeleport()
@@ -69,13 +82,14 @@ public class Asteroid : MonoBehaviour, IPoolable<IMemoryPool>, IDisposable
         transform.position = _gameSettings.MainCamera.ViewportToWorldPoint(pos);
     }
 
-    public class AsteroidPool
+    public class AsteroidsPool
     {
-        // private readonly List<Bullet> _asteroids = new List<Asteroid>();
-        private readonly Factory _factory;
-        [Inject] private GameScriptableSettings _scriptableSettings;
+        private readonly List<Asteroid> _asteroids = new List<Asteroid>();
 
-        public AsteroidPool(Factory factory)
+        private readonly Factory _factory;
+        // [Inject] private GameScriptableSettings _scriptableSettings;
+
+        public AsteroidsPool(Factory factory)
         {
             _factory = factory;
         }
@@ -86,8 +100,19 @@ public class Asteroid : MonoBehaviour, IPoolable<IMemoryPool>, IDisposable
             return asteroid;
         }
 
-        public void Remove()
+        public void Remove(Asteroid asteroid)
         {
+            _asteroids.Remove(asteroid);
+            asteroid.Dispose();
+        }
+
+        public void RemoveAll()
+        {
+            foreach (var asteroid in _asteroids)
+            {
+                _asteroids.Remove(asteroid);
+                asteroid.Dispose();
+            }
         }
     }
 

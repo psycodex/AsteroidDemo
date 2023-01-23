@@ -18,6 +18,10 @@ namespace Settings
             [SerializeField] private GameObject bulletPrefab;
             [SerializeField] private GameObject asteroidPrefab;
 
+            [SerializeField] private GameObject homeView;
+            [SerializeField] private GameObject gamePlayView;
+            [SerializeField] private GameObject gameOverView;
+
             #endregion
 
             #region Properties
@@ -27,6 +31,14 @@ namespace Settings
             public GameObject Play => play;
             public GameObject BulletPrefab => bulletPrefab;
             public GameObject AsteroidPrefab => asteroidPrefab;
+
+ 
+
+            public GameObject HomeView => homeView;
+
+            public GameObject GamePlayView => gamePlayView;
+            public GameObject GameOverView => gameOverView;
+
 
             #endregion
         }
