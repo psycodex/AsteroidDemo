@@ -76,7 +76,12 @@ namespace Installers
     {
         [SerializeField] private float minAsteroids = 1;
         [SerializeField] private float maxAsteroids = 10;
+
+        [SerializeField] private float minSpeed = 1;
+        [SerializeField] private float maxSpeed = 5;
         public float MinAsteroids => minAsteroids;
         public float MaxAsteroids => maxAsteroids;
+        public float MinSpeed => minSpeed;
+        public float MaxSpeed => maxSpeed;
     }
 }

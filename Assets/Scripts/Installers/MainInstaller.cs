@@ -1,3 +1,4 @@
+using Managers;
 using Settings;
 using UnityEngine;
 using Zenject;
@@ -25,18 +26,18 @@ namespace Installers
             Container.Bind<Bullet.BulletsPool>().AsSingle();
             Container.BindInterfacesAndSelfTo<Player>().FromComponentInHierarchy(settings.Views.Player).AsSingle();
             Container.BindInterfacesTo<PlayerHandler>().AsSingle();
+            Container.BindInterfacesAndSelfTo<AsteroidManager>().AsSingle();
+            Container.BindInterfacesAndSelfTo<GameManager>().AsSingle();
             Container.BindFactory<Bullet, Bullet.Factory>()
                 .FromPoolableMemoryPool<Bullet, BulletFacadePool>(
                     poolBinder => poolBinder
                         .WithInitialSize(5)
-                        // .WithMaxSize(100)
                         .FromComponentInNewPrefab(settings.Views.BulletPrefab)
                         .UnderTransform(settings.Views.Play.transform));
             Container.BindFactory<Asteroid, Asteroid.Factory>()
                 .FromPoolableMemoryPool<Asteroid, AsteroidFacadePool>(
                     poolBinder => poolBinder
                         .WithInitialSize(5)
-                        // .WithMaxSize(100)
                         .FromComponentInNewPrefab(settings.Views.AsteroidPrefab)
                         .UnderTransform(settings.Views.Play.transform));
         }
