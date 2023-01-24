@@ -1,17 +1,19 @@
+using Signals;
 using UnityEngine;
+using Zenject;
 
 namespace UI
 {
-    public class GamePlayView : MonoBehaviour
+    public class GamePlayView : View, IInitializable
     {
-        // Start is called before the first frame update
-        void Start()
+        public void Initialize()
         {
+            SignalBus.Subscribe<GameStartSignal>(OnGameStart);
         }
 
-        // Update is called once per frame
-        void Update()
+        private void OnGameStart()
         {
+            Show();
         }
     }
 }

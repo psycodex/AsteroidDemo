@@ -838,10 +838,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameOverView
       objectReference: {fileID: 0}
-    - target: {fileID: 4472449447873651590, guid: 1cfb59b587d4e4f189c839277d228706, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4472449447873651591, guid: 1cfb59b587d4e4f189c839277d228706, type: 3}
       propertyPath: m_Pivot.x
       value: 0

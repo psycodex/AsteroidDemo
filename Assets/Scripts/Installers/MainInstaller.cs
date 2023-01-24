@@ -1,5 +1,6 @@
 using Managers;
 using Settings;
+using Signals;
 using UI;
 using UnityEngine;
 using Zenject;
@@ -53,6 +54,8 @@ namespace Installers
         private void BindSignals()
         {
             SignalBusInstaller.Install(Container);
+
+            Container.DeclareSignal<GameStartSignal>();
         }
     }
 
