@@ -15,6 +15,10 @@ namespace Managers
         [Inject] private WorldManager _worldManager;
         [Inject] private GameManager _gameManager;
 
+        private float _lastSpawnTime;
+        private int _activeAsteroids;
+        private int _totalLevelAsteroidSpawned;
+
         public void StartGame()
         {
             ResetAll();
@@ -28,6 +32,7 @@ namespace Managers
             {
                 var asteroid = _asteroidsPool.Add();
                 GetRandomPositionAndVelocity(asteroid);
+                _lastSpawnTime = Time.realtimeSinceStartup;
             }
         }
 
@@ -38,7 +43,7 @@ namespace Managers
             _asteroidsPool.RemoveAll();
         }
 
-        private void GetRandomPositionAndVelocity(Asteroid asteroid)
+        public void GetRandomPositionAndVelocity(Asteroid asteroid)
         {
             int level = _gameManager.Level;
             var minSpeed = _scriptableSettings.Level.Levels[level].MinSpeed;
@@ -55,6 +60,18 @@ namespace Managers
 
             var velocity = Random.Range(minSpeed, maxSpeed) * dir;
             asteroid.Rigidbody2D.velocity = velocity;
+        }
+
+        public void OnPlaying()
+        {
+            Level level = _scriptableSettings.Level.Levels[_gameManager.Level];
+            if (Time.realtimeSinceStartup - _lastSpawnTime > level.SpawnIntervals &&
+                _activeAsteroids < level.MaxAsteroids)
+            {
+                var asteroid = _asteroidsPool.Add();
+                GetRandomPositionAndVelocity(asteroid);
+                _lastSpawnTime = Time.realtimeSinceStartup;
+            }
         }
     }
 }

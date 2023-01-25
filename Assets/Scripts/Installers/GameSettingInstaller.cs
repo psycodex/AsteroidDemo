@@ -86,11 +86,13 @@ namespace Installers
         [SerializeField] private float spawnIntervals = 1;
         [SerializeField] private float minAsteroids = 1;
         [SerializeField] private float maxAsteroids = 10;
+        [SerializeField] private float totalAsteroids = 10;
 
         [SerializeField] private float minSpeed = 1;
         [SerializeField] private float maxSpeed = 5;
         public float MinAsteroids => minAsteroids;
         public float MaxAsteroids => maxAsteroids;
+        public float TotalAsteroids => totalAsteroids;
         public float MinSpeed => minSpeed;
         public float MaxSpeed => maxSpeed;
         public int StartingSpawnAsteroids => startingSpawnAsteroids;

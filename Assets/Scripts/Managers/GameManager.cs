@@ -59,6 +59,8 @@ namespace Managers
             {
                 _asteroidManager.StartGame();
             }
+
+            _asteroidManager.OnPlaying();
         }
 
         private void OnGameOver()
