@@ -8,28 +8,32 @@ namespace Managers
 {
     public class GameManager : IInitializable, ITickable
     {
-        private Constants.GameStates _states, _oldState;
         [Inject] private AsteroidManager _asteroidManager;
         [Inject] private GameSettings _settings;
         [Inject] private GameScriptableSettings _scriptableSettings;
-        [Inject] private SignalBus SignalBus;
+        [Inject] private SignalBus _signalBus;
+
+
+        public int Level { get; private set; }
+        public Constants.GameStates OldState { get; private set; }
+        public Constants.GameStates CurrentState { get; private set; }
 
         public void Initialize()
         {
-            SignalBus.Subscribe<GameStartSignal>(OnGameStart);
+            _signalBus.Subscribe<GameStartSignal>(OnGameStart);
             // Debug.LogFormat("Width {0}", Width());
             // Debug.LogFormat("Height {0}", Height());
         }
 
         private void OnGameStart()
         {
-            _states = Constants.GameStates.Playing;
+            Level = 0;
+            CurrentState = Constants.GameStates.Playing;
         }
 
         public void Tick()
         {
-            return;
-            switch (_states)
+            switch (CurrentState)
             {
                 case Constants.GameStates.Home:
                     OnHome();
@@ -41,6 +45,8 @@ namespace Managers
                     OnGameOver();
                     break;
             }
+
+            OldState = CurrentState;
         }
 
         private void OnHome()
@@ -49,8 +55,10 @@ namespace Managers
 
         private void OnPlaying()
         {
-            
-            _asteroidManager.StartGame();
+            if (OldState != CurrentState)
+            {
+                _asteroidManager.StartGame();
+            }
         }
 
         private void OnGameOver()

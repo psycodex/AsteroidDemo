@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Installers;
 using UnityEngine;
 using Zenject;
@@ -82,7 +83,7 @@ public class Bullet : MonoBehaviour, IPoolable<IMemoryPool>, IDisposable
 
         public void RemoveAll()
         {
-            foreach (var bullet in _bullets)
+            foreach (var bullet in _bullets.ToList())
             {
                 _bullets.Remove(bullet);
                 bullet.Dispose();

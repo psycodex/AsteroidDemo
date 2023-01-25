@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Installers;
 using Managers;
 using Settings;
@@ -13,20 +14,22 @@ public class Asteroid : MonoBehaviour, IPoolable<IMemoryPool>, IDisposable
 {
     [Inject] private GameSettings _gameSettings;
     [Inject] private GameScriptableSettings _scriptableSettings;
-    [Inject] private WorldManager _worldManager;
+    [Inject] private GameManager _gameManager;
     private IMemoryPool _pool;
 
     public Rigidbody2D Rigidbody2D { get; private set; }
 
     public Collider2D Collider2D { get; private set; }
+
+    public SpriteRenderer SpriteRenderer { get; private set; }
     // public Transform Transform { get; private set; }
 
     public void OnSpawned(IMemoryPool p2)
     {
         _pool = p2;
-        GetRandomPositionAndVelocity();
         Rigidbody2D = GetComponent<Rigidbody2D>();
         Collider2D = GetComponent<Collider2D>();
+        SpriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     public void OnDespawned()
@@ -40,46 +43,48 @@ public class Asteroid : MonoBehaviour, IPoolable<IMemoryPool>, IDisposable
 
     private void Update()
     {
-        // CheckForTeleport();
-    }
+        if (_gameManager.CurrentState != Constants.GameStates.Playing)
+        {
+            return;
+        }
 
-    private void GetRandomPositionAndVelocity()
-    {
-        var minSpeed = _scriptableSettings.Asteroid.MinSpeed;
-        var maxSpeed = _scriptableSettings.Asteroid.MaxSpeed;
+        int level = _gameManager.Level;
+        if (Rigidbody2D.velocity.magnitude < _scriptableSettings.Level.Levels[level].MinSpeed)
+        {
+            var dir = Rigidbody2D.velocity.normalized;
+            Rigidbody2D.velocity = dir * _scriptableSettings.Level.Levels[level].MinSpeed;
+        }
 
-        var x = Random.Range(-_worldManager.Width, _worldManager.Width);
-        var y = Random.Range(-_worldManager.Height, _worldManager.Height);
-        transform.position = new Vector3(x, y, 0);
+        CheckForTeleport();
     }
 
     private void CheckForTeleport()
     {
-        //you get a world space coord and transfom it to viewport space.
         Vector3 pos = _gameSettings.MainCamera.WorldToViewportPoint(transform.position);
-
-        //everything from here on is in viewport space where 0,0 is the bottom 
-        //left of your screen and 1,1 the top right.
-        if (pos.x < 0.0f)
+        if (pos.x < 0.0f && IsMovingInDirection(Vector3.left))
         {
             pos = new Vector3(1.0f, pos.y, pos.z);
         }
-        else if (pos.x >= 1.0f)
+        else if (pos.x >= 1.0f && IsMovingInDirection(Vector3.right))
         {
             pos = new Vector3(0.0f, pos.y, pos.z);
         }
 
-        if (pos.y < 0.0f)
+        if (pos.y < 0.0f && IsMovingInDirection(Vector3.down))
         {
             pos = new Vector3(pos.x, 1.0f, pos.z);
         }
-        else if (pos.y >= 1.0f)
+        else if (pos.y >= 1.0f && IsMovingInDirection(Vector3.up))
         {
             pos = new Vector3(pos.x, 0.0f, pos.z);
         }
 
-        //and here it gets transformed back to world space.
         transform.position = _gameSettings.MainCamera.ViewportToWorldPoint(pos);
+    }
+
+    bool IsMovingInDirection(Vector3 dir)
+    {
+        return Vector3.Dot(dir, Rigidbody2D.velocity) > 0;
     }
 
     public class AsteroidsPool
@@ -108,7 +113,7 @@ public class Asteroid : MonoBehaviour, IPoolable<IMemoryPool>, IDisposable
 
         public void RemoveAll()
         {
-            foreach (var asteroid in _asteroids)
+            foreach (var asteroid in _asteroids.ToList())
             {
                 _asteroids.Remove(asteroid);
                 asteroid.Dispose();

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 using Zenject.Asteroids;
@@ -22,12 +23,12 @@ namespace Installers
         [SerializeField] private WorldSetting worldSetting;
         [SerializeField] private PlayerSetting playerSetting;
         [SerializeField] private BulletSetting bulletSetting;
-        [SerializeField] private AsteroidSetting asteroidSetting;
+        [SerializeField] private LevelSetting levelSetting;
 
         public WorldSetting World => worldSetting;
         public PlayerSetting Player => playerSetting;
         public BulletSetting Bullet => bulletSetting;
-        public AsteroidSetting Asteroid => asteroidSetting;
+        public LevelSetting Level => levelSetting;
     }
 
     [Serializable]
@@ -72,10 +73,17 @@ namespace Installers
     }
 
     [Serializable]
-    public class AsteroidSetting
+    public class LevelSetting
+    {
+        [SerializeField] private List<Level> levels;
+        public List<Level> Levels => levels;
+    }
+
+    [Serializable]
+    public class Level
     {
         [SerializeField] private int startingSpawnAsteroids = 6;
-        [SerializeField] private float asteroidSpawnIntervals = 1;
+        [SerializeField] private float spawnIntervals = 1;
         [SerializeField] private float minAsteroids = 1;
         [SerializeField] private float maxAsteroids = 10;
 
@@ -86,6 +94,6 @@ namespace Installers
         public float MinSpeed => minSpeed;
         public float MaxSpeed => maxSpeed;
         public int StartingSpawnAsteroids => startingSpawnAsteroids;
-        public float AsteroidSpawnIntervals => asteroidSpawnIntervals;
+        public float SpawnIntervals => spawnIntervals;
     }
 }
