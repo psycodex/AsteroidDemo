@@ -43,25 +43,4 @@ public class Player : MonoBehaviour
         var asteroid = col.gameObject.GetComponent<Asteroid>();
         _playerHandler.TakeDamage(asteroid.Size);
     }
-
-    public void OnPowerUp(Constants.PowerUpsType powerUpsType)
-    {
-        switch (powerUpsType)
-        {
-            case Constants.PowerUpsType.Shield:
-                EnableShield();
-                break;
-            case Constants.PowerUpsType.CrescentMoon:
-                EnableCrescentMoonBullets();
-                break;
-        }
-    }
-
-    private void EnableCrescentMoonBullets()
-    {
-    }
-
-    private void EnableShield()
-    {
-    }
 }

@@ -9,6 +9,8 @@ using Zenject;
 public class PowerUp : MonoBehaviour, IPoolable<Constants.PowerUpsType, IMemoryPool>, IDisposable
 {
     [Inject] private GameScriptableSettings _scriptableSettings;
+    [Inject] private PlayerHandler _playerHandler;
+
     private IMemoryPool _pool;
     private float _startTime;
     [SerializeField] private Constants.PowerUpsType powerUpsType;
@@ -55,7 +57,7 @@ public class PowerUp : MonoBehaviour, IPoolable<Constants.PowerUpsType, IMemoryP
     {
         while (true)
         {
-            if (Time.realtimeSinceStartup - _startTime > _scriptableSettings.PowerUp.PowerUpLiveDuration)
+            if (Time.realtimeSinceStartup - _startTime > _scriptableSettings.PowerUp.SpawnPowerUpLiveDuration)
             {
                 break;
             }
@@ -70,8 +72,7 @@ public class PowerUp : MonoBehaviour, IPoolable<Constants.PowerUpsType, IMemoryP
     {
         if (col.CompareTag(Constants.TagPlayer))
         {
-            var player = col.GetComponent<Player>();
-            player.OnPowerUp(powerUpsType);
+            _playerHandler.OnPowerUp(powerUpsType);
         }
 
         Dispose();

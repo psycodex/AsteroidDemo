@@ -27,6 +27,12 @@ public class PlayerHandler : ITickable, IFixedTickable, ILateTickable
     private float _lastFireTime;
     private float _health;
 
+    private bool _isShieldActive;
+    private bool _isCrescentMoonBulletActive;
+
+    private float _shieldActiveTime;
+    private float _crescentMoonBulletsActiveTime;
+
     public void Tick()
     {
         if (_gameManager.CurrentState != Constants.GameStates.Playing)
@@ -53,14 +59,34 @@ public class PlayerHandler : ITickable, IFixedTickable, ILateTickable
             var position = _player.spawnPoint.transform.position;
             _player.StartCoroutine(BurstShoot(position));
         }
+
+        if (_isShieldActive && Time.realtimeSinceStartup - _scriptableSettings.PowerUp.PlayerPowerUpLiveDuration >
+            _shieldActiveTime)
+        {
+            DisableShield();
+        }
+
+        if (_isCrescentMoonBulletActive &&
+            Time.realtimeSinceStartup - _scriptableSettings.PowerUp.PlayerPowerUpLiveDuration >
+            _crescentMoonBulletsActiveTime)
+        {
+            DisableCrescentMoonBullets();
+        }
     }
 
     IEnumerator BurstShoot(Vector3 position)
     {
         for (int i = 0; i < _scriptableSettings.Bullet.BurstMax; i++)
         {
-            var bullet = _crescentBulletsPool.Add(position);
-            // var bullet = _bulletsPool.Add(position);
+            // if (_isCrescentMoonBulletActive)
+            // {
+            // var bullet = _crescentBulletsPool.Add();
+            // }
+            // else
+            // {
+            var bullet = _bulletsPool.Add();
+            // }
+
             var transform = bullet.transform;
             transform.position = position;
             transform.rotation = _player.spawnPoint.transform.rotation;
@@ -131,5 +157,46 @@ public class PlayerHandler : ITickable, IFixedTickable, ILateTickable
             CurrentHealth = _health,
             MaxHealth = _scriptableSettings.Player.Health
         });
+    }
+
+    public void OnPowerUp(Constants.PowerUpsType powerUpsType)
+    {
+        switch (powerUpsType)
+        {
+            case Constants.PowerUpsType.Shield:
+                EnableShield();
+                break;
+            case Constants.PowerUpsType.CrescentMoon:
+                EnableCrescentMoonBullets();
+                break;
+        }
+    }
+
+    private void EnableCrescentMoonBullets()
+    {
+        _isCrescentMoonBulletActive = true;
+        _crescentMoonBulletsActiveTime = Time.realtimeSinceStartup;
+    }
+
+    private void DisableCrescentMoonBullets()
+    {
+        _isCrescentMoonBulletActive = false;
+        _crescentMoonBulletsActiveTime = 0;
+    }
+
+    private void EnableShield()
+    {
+        _player.Collider2D.enabled = false;
+        _player.Shield.SetActive(true);
+        _isShieldActive = true;
+        _shieldActiveTime = Time.realtimeSinceStartup;
+    }
+
+    private void DisableShield()
+    {
+        _player.Collider2D.enabled = true;
+        _player.Shield.SetActive(false);
+        _isShieldActive = false;
+        _shieldActiveTime = 0;
     }
 }

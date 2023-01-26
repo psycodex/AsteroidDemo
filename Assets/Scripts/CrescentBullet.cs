@@ -75,7 +75,7 @@ public class CrescentBullet : MonoBehaviour, IPoolable<IMemoryPool>, IDisposable
             _factory = factory;
         }
 
-        public CrescentBullet Add(Vector2 spawnPosition)
+        public CrescentBullet Add()
         {
             var bullet = _factory.Create();
             _bullets.Add(bullet);

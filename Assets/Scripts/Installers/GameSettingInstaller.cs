@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 using Zenject.Asteroids;
 
@@ -145,10 +146,11 @@ namespace Installers
     public class PowerUpSetting
     {
         [SerializeField] private float spawnDurationInterval;
-        [SerializeField] private float powerUpLiveDuration;
+        [SerializeField] private float spawnPowerUpLiveDuration;
+        [SerializeField] private float playerPowerUpLiveDuration;
 
         public float SpawnDurationInterval => spawnDurationInterval;
-
-        public float PowerUpLiveDuration => powerUpLiveDuration;
+        public float SpawnPowerUpLiveDuration => spawnPowerUpLiveDuration;
+        public float PlayerPowerUpLiveDuration => playerPowerUpLiveDuration;
     }
 }
