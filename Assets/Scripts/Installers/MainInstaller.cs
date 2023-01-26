@@ -58,6 +58,7 @@ namespace Installers
 
             Container.DeclareSignal<GameStartSignal>();
             Container.DeclareSignal<GameOverSignal>();
+            Container.DeclareSignal<IncrementScoreSignal>();
         }
     }
 

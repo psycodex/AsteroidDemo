@@ -1,15 +1,13 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Installers;
 using Managers;
 using Settings;
+using Signals;
 using UnityEngine;
 using Utils;
 using Zenject;
-using Zenject.SpaceFighter;
-using Random = UnityEngine.Random;
 
 public class Asteroid : MonoBehaviour, IPoolable<IMemoryPool>, IDisposable
 {
@@ -17,6 +15,7 @@ public class Asteroid : MonoBehaviour, IPoolable<IMemoryPool>, IDisposable
     [Inject] private GameScriptableSettings _scriptableSettings;
     [Inject] private GameManager _gameManager;
     [Inject] private AsteroidsPool _asteroidsPool;
+    [Inject] private SignalBus _signalBus;
     private IMemoryPool _pool;
     private int _scale;
 
@@ -33,11 +32,14 @@ public class Asteroid : MonoBehaviour, IPoolable<IMemoryPool>, IDisposable
         Rigidbody2D = GetComponent<Rigidbody2D>();
         Collider2D = GetComponent<Collider2D>();
         ARenderer = GetComponent<SpriteRenderer>();
+        transform.localScale = new Vector2(_scriptableSettings.Asteroid.DefaultScale,
+            _scriptableSettings.Asteroid.DefaultScale);
     }
 
     public void OnDespawned()
     {
-        transform.localScale = new Vector2(1, 1);
+        transform.localScale = new Vector2(_scriptableSettings.Asteroid.DefaultScale,
+            _scriptableSettings.Asteroid.DefaultScale);
         Rigidbody2D.mass = 1;
         Rigidbody2D.velocity = Vector2.zero;
         _pool = null;
@@ -56,15 +58,15 @@ public class Asteroid : MonoBehaviour, IPoolable<IMemoryPool>, IDisposable
         }
 
         int level = _gameManager.Level;
-        if (Rigidbody2D.velocity.magnitude < _scriptableSettings.Level.Levels[level].MinSpeed)
+        if (Rigidbody2D.velocity.magnitude < _scriptableSettings.Asteroid.MinSpeed)
         {
             var dir = Rigidbody2D.velocity.normalized;
-            Rigidbody2D.velocity = dir * _scriptableSettings.Level.Levels[level].MinSpeed;
+            Rigidbody2D.velocity = dir * _scriptableSettings.Asteroid.MinSpeed;
         }
-        else if (Rigidbody2D.velocity.magnitude > _scriptableSettings.Level.Levels[level].MaxSpeed)
+        else if (Rigidbody2D.velocity.magnitude > _scriptableSettings.Asteroid.MaxSpeed)
         {
             var dir = Rigidbody2D.velocity.normalized;
-            Rigidbody2D.velocity = dir * _scriptableSettings.Level.Levels[level].MaxSpeed;
+            Rigidbody2D.velocity = dir * _scriptableSettings.Asteroid.MaxSpeed;
         }
     }
 
@@ -75,10 +77,10 @@ public class Asteroid : MonoBehaviour, IPoolable<IMemoryPool>, IDisposable
 
     public void DestroyAsteroid(Vector2 bulletVelocity, Vector3 position)
     {
-        var velocity = Rigidbody2D.velocity;
+        _signalBus.Fire<IncrementScoreSignal>();
         _asteroidsPool.Remove(this);
         var scale = _scale + 1;
-        if (scale > 2)
+        if (scale > _scriptableSettings.Asteroid.MaxScale)
         {
             return;
         }

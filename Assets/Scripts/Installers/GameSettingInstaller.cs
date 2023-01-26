@@ -84,19 +84,6 @@ namespace Installers
     [Serializable]
     public class AsteroidSetting
     {
-        [SerializeField] private float scaleMassFactor = 1f;
-        [SerializeField] private float minSize;
-        [SerializeField] private float maxSize;
-
-        public float MinSize => minSize;
-        public float MaxSize => maxSize;
-
-        public float ScaleMassFactor => scaleMassFactor;
-    }
-
-    [Serializable]
-    public class Level
-    {
         [SerializeField] private int startingSpawnAsteroids = 6;
         [SerializeField] private float spawnIntervals = 1;
         [SerializeField] private float minAsteroids = 1;
@@ -105,6 +92,13 @@ namespace Installers
 
         [SerializeField] private float minSpeed = 1;
         [SerializeField] private float maxSpeed = 5;
+
+        [SerializeField] private float scaleMassFactor = 1f;
+        [SerializeField] private float minSize;
+        [SerializeField] private float maxSize;
+        [SerializeField] private int defaultScale = -1;
+        [SerializeField] private int maxScale = 1;
+
         public float MinAsteroids => minAsteroids;
         public float MaxAsteroids => maxAsteroids;
         public float TotalAsteroids => totalAsteroids;
@@ -112,5 +106,18 @@ namespace Installers
         public float MaxSpeed => maxSpeed;
         public int StartingSpawnAsteroids => startingSpawnAsteroids;
         public float SpawnIntervals => spawnIntervals;
+
+        public float MinSize => minSize;
+        public float MaxSize => maxSize;
+
+        public int DefaultScale => defaultScale;
+
+        public int MaxScale => maxScale;
+        public float ScaleMassFactor => scaleMassFactor;
+    }
+
+    [Serializable]
+    public class Level
+    {
     }
 }

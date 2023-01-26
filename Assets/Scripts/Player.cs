@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
     {
         Rigidbody2D = GetComponent<Rigidbody2D>();
         Collider2D = GetComponent<Collider2D>();
+        gameObject.SetActive(false);
         // Transform = GetComponent<Transform>();
     }
 

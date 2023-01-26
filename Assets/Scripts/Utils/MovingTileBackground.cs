@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class MovingTileBackground : MonoBehaviour
 {
+    [SerializeField] private Renderer _renderer;
     [SerializeField] float _speed;
 
     Vector2 _offset;
-    SpriteRenderer _renderer;
-
-    void Awake()
-    {
-        _renderer = GetComponent<SpriteRenderer>();
-    }
 
     void Update()
     {

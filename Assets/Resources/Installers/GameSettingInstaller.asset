@@ -23,9 +23,18 @@ MonoBehaviour:
       bulletLifeTime: 3
       bulletSpeed: 10
     asteroidSetting:
+      startingSpawnAsteroids: 5
+      spawnIntervals: 1
+      minAsteroids: 5
+      maxAsteroids: 8
+      totalAsteroids: 10
+      minSpeed: 1
+      maxSpeed: 5
       scaleMassFactor: 10
       minSize: 0.5
       maxSize: 2
+      defaultScale: 2
+      maxScale: 1
     levelSetting:
       levels:
       - startingSpawnAsteroids: 5

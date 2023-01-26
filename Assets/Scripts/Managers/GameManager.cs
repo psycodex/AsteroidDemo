@@ -9,6 +9,7 @@ namespace Managers
     public class GameManager : IInitializable, IDisposable
     {
         [Inject] private AsteroidManager _asteroidManager;
+
         // [Inject] private GameSettings _settings;
         // [Inject] private GameScriptableSettings _scriptableSettings;
         // [Inject] private GamePlayView _playView;
@@ -53,36 +54,5 @@ namespace Managers
         {
             CurrentState = Constants.GameStates.GameOver;
         }
-
-        // public void Tick()
-        // {
-        //     switch (CurrentState)
-        //     {
-        //         case Constants.GameStates.Home:
-        //             OnHome();
-        //             break;
-        //         case Constants.GameStates.Playing:
-        //             OnPlaying();
-        //             break;
-        //         case Constants.GameStates.GameOver:
-        //             OnGameOver();
-        //             break;
-        //     }
-        //
-        //     OldState = CurrentState;
-        // }
-
-        // private void OnHome()
-        // {
-        // }
-        //
-        // private void OnPlaying()
-        // {
-        //     _asteroidManager.OnPlaying();
-        // }
-        //
-        // private void OnGameOver()
-        // {
-        // }
     }
 }

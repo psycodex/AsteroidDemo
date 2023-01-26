@@ -9,4 +9,8 @@ namespace Signals
     public class GameOverSignal
     {
     }
+
+    public class IncrementScoreSignal
+    {
+    }
 }

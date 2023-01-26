@@ -23,7 +23,6 @@ public class PlayerHandler : ITickable, IFixedTickable, ILateTickable
     private bool _isFiring;
     private float _lastFireTime;
 
-
     public void Tick()
     {
         if (_gameManager.CurrentState != Constants.GameStates.Playing)
@@ -84,14 +83,14 @@ public class PlayerHandler : ITickable, IFixedTickable, ILateTickable
         }
     }
 
-    public async void TakeDamage()
+    public void TakeDamage()
     {
         _signalBus.Fire<GameOverSignal>();
         _player.gameObject.SetActive(false);
         var transform = _player.transform;
         var explosionObject = Object.Instantiate(_gameSettings.Views.ExplosionPrefab, transform.position,
             transform.rotation);
-        Object.Destroy(explosionObject, 1500);
+        Object.Destroy(explosionObject, 1.5f);
     }
 
     public void LateTick()
