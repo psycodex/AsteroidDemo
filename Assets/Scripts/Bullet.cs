@@ -33,11 +33,18 @@ public class Bullet : MonoBehaviour, IPoolable<IMemoryPool>, IDisposable
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        _pool.Despawn(this);
+        if (col.CompareTag(Constants.TagAsteroid))
+        {
+            var asteroid = col.GetComponent<Asteroid>();
+            asteroid.DestroyAsteroid(Rigidbody2D.velocity, transform.position);
+        }
+
+        Dispose();
     }
 
     public void Dispose()
     {
+        _pool?.Despawn(this);
     }
 
     IEnumerator HandleBulletLifeTime()

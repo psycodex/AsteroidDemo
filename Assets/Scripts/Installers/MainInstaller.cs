@@ -26,11 +26,12 @@ namespace Installers
         private void BindGame()
         {
             Container.BindInterfacesAndSelfTo<WorldManager>().AsSingle();
-            Container.BindInterfacesTo<PlayerHandler>().AsSingle();
+            Container.BindInterfacesAndSelfTo<PlayerHandler>().AsSingle();
             Container.BindInterfacesAndSelfTo<AsteroidManager>().AsSingle();
             Container.BindInterfacesAndSelfTo<GameManager>().AsSingle();
             Container.Bind<Bullet.BulletsPool>().AsSingle();
             Container.Bind<Asteroid.AsteroidsPool>().AsSingle();
+            Container.BindInterfacesAndSelfTo<Play>().FromComponentInHierarchy(settings.Views.Play).AsSingle();
             Container.BindInterfacesAndSelfTo<HomeView>().FromComponentInHierarchy(settings.Views.HomeView).AsSingle();
             Container.BindInterfacesAndSelfTo<GamePlayView>().FromComponentInHierarchy(settings.Views.GamePlayView)
                 .AsSingle();
@@ -56,6 +57,7 @@ namespace Installers
             SignalBusInstaller.Install(Container);
 
             Container.DeclareSignal<GameStartSignal>();
+            Container.DeclareSignal<GameOverSignal>();
         }
     }
 

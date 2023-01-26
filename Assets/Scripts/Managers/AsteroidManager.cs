@@ -19,7 +19,7 @@ namespace Managers
         private int _activeAsteroids;
         private int _totalLevelAsteroidSpawned;
 
-        public void StartGame()
+        public void ResetAndStart()
         {
             ResetAll();
             SpawnInitialAsteroids();
@@ -53,17 +53,22 @@ namespace Managers
             var y = Random.Range(-_worldManager.Height, _worldManager.Height);
 
             var position = new Vector3(x, y, 0);
-            asteroid.transform.position = position;
+            // asteroid.transform.position = position;
 
             var randomDirection = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0);
             var dir = randomDirection.normalized;
 
             var velocity = Random.Range(minSpeed, maxSpeed) * dir;
-            asteroid.Rigidbody2D.velocity = velocity;
+            // var velocity = Vector3.zero;
+            // asteroid.Rigidbody2D.velocity = velocity;
+
+            asteroid.SetMeta(position, velocity, 0);
         }
+
 
         public void OnPlaying()
         {
+            return;
             Level level = _scriptableSettings.Level.Levels[_gameManager.Level];
             if (Time.realtimeSinceStartup - _lastSpawnTime > level.SpawnIntervals &&
                 _activeAsteroids < level.MaxAsteroids)

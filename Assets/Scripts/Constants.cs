@@ -6,4 +6,8 @@ public class Constants
         Playing,
         GameOver
     }
+
+    public const string TagPlayer = "ship";
+    public const string TagAsteroid = "asteroid";
+    public const string TagBullet = "bullet";
 }

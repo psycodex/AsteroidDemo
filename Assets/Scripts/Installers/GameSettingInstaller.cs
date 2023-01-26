@@ -23,11 +23,13 @@ namespace Installers
         [SerializeField] private WorldSetting worldSetting;
         [SerializeField] private PlayerSetting playerSetting;
         [SerializeField] private BulletSetting bulletSetting;
+        [SerializeField] private AsteroidSetting asteroidSetting;
         [SerializeField] private LevelSetting levelSetting;
 
         public WorldSetting World => worldSetting;
         public PlayerSetting Player => playerSetting;
         public BulletSetting Bullet => bulletSetting;
+        public AsteroidSetting Asteroid => asteroidSetting;
         public LevelSetting Level => levelSetting;
     }
 
@@ -77,6 +79,19 @@ namespace Installers
     {
         [SerializeField] private List<Level> levels;
         public List<Level> Levels => levels;
+    }
+
+    [Serializable]
+    public class AsteroidSetting
+    {
+        [SerializeField] private float scaleMassFactor = 1f;
+        [SerializeField] private float minSize;
+        [SerializeField] private float maxSize;
+
+        public float MinSize => minSize;
+        public float MaxSize => maxSize;
+
+        public float ScaleMassFactor => scaleMassFactor;
     }
 
     [Serializable]

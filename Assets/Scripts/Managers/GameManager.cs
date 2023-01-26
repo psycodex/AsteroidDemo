@@ -1,18 +1,25 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using Installers;
 using Settings;
 using Signals;
+using UI;
 using UnityEngine;
 using Zenject;
 
 namespace Managers
 {
-    public class GameManager : IInitializable, ITickable
+    public class GameManager : IInitializable, IDisposable //, ITickable
     {
         [Inject] private AsteroidManager _asteroidManager;
         [Inject] private GameSettings _settings;
+
         [Inject] private GameScriptableSettings _scriptableSettings;
         [Inject] private SignalBus _signalBus;
-
+        [Inject] private GamePlayView _playView;
+        [Inject] private Play _play;
+        [Inject] private PlayerHandler _playerHandler;
 
         public int Level { get; private set; }
         public Constants.GameStates OldState { get; private set; }
@@ -20,62 +27,68 @@ namespace Managers
 
         public void Initialize()
         {
-            _signalBus.Subscribe<GameStartSignal>(OnGameStart);
-            // Debug.LogFormat("Width {0}", Width());
-            // Debug.LogFormat("Height {0}", Height());
+            _signalBus.Subscribe<GameStartSignal>(OnGameStartSignal);
+            _signalBus.Subscribe<GameOverSignal>(OnGameOverSignal);
         }
 
-        private void OnGameStart()
+        public void Dispose()
+        {
+            _signalBus.Unsubscribe<GameStartSignal>(OnGameStartSignal);
+            _signalBus.Unsubscribe<GameOverSignal>(OnGameOverSignal);
+        }
+
+        private void OnGameStartSignal()
         {
             Level = 0;
             CurrentState = Constants.GameStates.Playing;
+            _playerHandler.Reset();
+            _asteroidManager.ResetAndStart();
+            _play.StartCoroutine(GamePlay());
         }
 
-        public void Tick()
+        private IEnumerator GamePlay()
         {
-            switch (CurrentState)
+            while (CurrentState == Constants.GameStates.Playing)
             {
-                case Constants.GameStates.Home:
-                    OnHome();
-                    break;
-                case Constants.GameStates.Playing:
-                    OnPlaying();
-                    break;
-                case Constants.GameStates.GameOver:
-                    OnGameOver();
-                    break;
+                _asteroidManager.OnPlaying();
+                yield return new WaitForEndOfFrame();
             }
-
-            OldState = CurrentState;
         }
 
-        private void OnHome()
+        private void OnGameOverSignal()
         {
+            CurrentState = Constants.GameStates.GameOver;
         }
 
-        private void OnPlaying()
-        {
-            if (OldState != CurrentState)
-            {
-                _asteroidManager.StartGame();
-            }
+        // public void Tick()
+        // {
+        //     switch (CurrentState)
+        //     {
+        //         case Constants.GameStates.Home:
+        //             OnHome();
+        //             break;
+        //         case Constants.GameStates.Playing:
+        //             OnPlaying();
+        //             break;
+        //         case Constants.GameStates.GameOver:
+        //             OnGameOver();
+        //             break;
+        //     }
+        //
+        //     OldState = CurrentState;
+        // }
 
-            _asteroidManager.OnPlaying();
-        }
-
-        private void OnGameOver()
-        {
-        }
-
-        public float Height()
-        {
-            return _settings.MainCamera.orthographicSize * 2f;
-        }
-
-        public float Width()
-        {
-            var camera = _settings.MainCamera;
-            return 2f * camera.aspect * camera.orthographicSize;
-        }
+        // private void OnHome()
+        // {
+        // }
+        //
+        // private void OnPlaying()
+        // {
+        //     _asteroidManager.OnPlaying();
+        // }
+        //
+        // private void OnGameOver()
+        // {
+        // }
     }
 }

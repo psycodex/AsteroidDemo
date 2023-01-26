@@ -9,11 +9,17 @@ namespace UI
         public void Initialize()
         {
             SignalBus.Subscribe<GameStartSignal>(OnGameStart);
+            SignalBus.Subscribe<GameOverSignal>(OnGameOver);
         }
 
         private void OnGameStart()
         {
             Show();
+        }
+
+        private void OnGameOver()
+        {
+            Hide();
         }
     }
 }
