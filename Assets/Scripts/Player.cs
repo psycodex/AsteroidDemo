@@ -30,9 +30,18 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.collider.CompareTag(Constants.TagAsteroid))
-        {
-            _playerHandler.TakeDamage();
-        }
+        TakeDamage(col);
+    }
+
+    private void OnCollisionStay2D(Collision2D col)
+    {
+        TakeDamage(col);
+    }
+
+    private void TakeDamage(Collision2D col)
+    {
+        if (!col.collider.CompareTag(Constants.TagAsteroid)) return;
+        var asteroid = col.gameObject.GetComponent<Asteroid>();
+        _playerHandler.TakeDamage(asteroid.Size);
     }
 }

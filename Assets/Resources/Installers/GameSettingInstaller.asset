@@ -16,12 +16,18 @@ MonoBehaviour:
     worldSetting:
       targetFps: 60
     playerSetting:
+      health: 10
       moveSpeed: 5
+      angularSpeed: 1
       firePerSecond: 3
       maxFireBullet: 3
+      minHealth: {r: 1, g: 0, b: 0, a: 1}
+      maxHealth: {r: 0, g: 1, b: 0, a: 1}
     bulletSetting:
       bulletLifeTime: 3
       bulletSpeed: 10
+      burstMax: 3
+      burstIntervalMillSec: 0.03
     asteroidSetting:
       startingSpawnAsteroids: 5
       spawnIntervals: 1
@@ -33,14 +39,7 @@ MonoBehaviour:
       scaleMassFactor: 10
       minSize: 0.5
       maxSize: 2
-      defaultScale: 2
+      defaultScale: -1
       maxScale: 1
     levelSetting:
-      levels:
-      - startingSpawnAsteroids: 5
-        spawnIntervals: 1
-        minAsteroids: 5
-        maxAsteroids: 8
-        totalAsteroids: 10
-        minSpeed: 1
-        maxSpeed: 2
+      levels: []

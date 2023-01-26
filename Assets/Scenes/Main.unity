@@ -563,8 +563,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1022322622}
-  - {fileID: 789732489}
   - {fileID: 267724027}
+  - {fileID: 789732489}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -716,7 +716,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 955226032939714262, guid: 714f12416c69f46abaee68100bd0a078, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 955226032939714262, guid: 714f12416c69f46abaee68100bd0a078, type: 3}
       propertyPath: m_AnchorMax.x
@@ -793,6 +793,14 @@ PrefabInstance:
     - target: {fileID: 955226032939714263, guid: 714f12416c69f46abaee68100bd0a078, type: 3}
       propertyPath: m_Name
       value: GamePlayView
+      objectReference: {fileID: 0}
+    - target: {fileID: 955226032939714263, guid: 714f12416c69f46abaee68100bd0a078, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4353751649240575906, guid: 714f12416c69f46abaee68100bd0a078, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 714f12416c69f46abaee68100bd0a078, type: 3}
@@ -971,7 +979,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4472449447873651591, guid: 1cfb59b587d4e4f189c839277d228706, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4472449447873651591, guid: 1cfb59b587d4e4f189c839277d228706, type: 3}
       propertyPath: m_AnchorMax.x

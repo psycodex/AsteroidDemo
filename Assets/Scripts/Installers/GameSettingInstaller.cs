@@ -56,22 +56,40 @@ namespace Installers
     [Serializable]
     public class PlayerSetting
     {
+        [SerializeField] private float health = 10;
         [SerializeField] private float moveSpeed = 10;
+        [SerializeField] private float angularSpeed = 1;
         [SerializeField] private float firePerSecond = 1;
         [SerializeField] private int maxFireBullet = 3;
+
+        [SerializeField] private Color minHealth = Color.red;
+        [SerializeField] private Color maxHealth = Color.green;
+
+        public float Health => health;
         public float MoveSpeed => moveSpeed;
+        public float AngularSpeed => angularSpeed;
         public float FirePerSecond => firePerSecond;
         public float MaxFireBullet => maxFireBullet;
+
+        public Color MinHealth => minHealth;
+
+        public Color MaxHealth => maxHealth;
     }
 
     [Serializable]
     public class BulletSetting
     {
-        [SerializeField] private float bulletLifeTime = 10;
+        [SerializeField] private float bulletLifeTime = 5;
         [SerializeField] private float bulletSpeed = 10;
+        [SerializeField] private int burstMax = 3;
+        [SerializeField] private float burstIntervalMillSec = 0.1f;
 
         public float BulletLifeTime => bulletLifeTime;
         public float BulletSpeed => bulletSpeed;
+
+        public int BurstMax => burstMax;
+
+        public float BurstIntervalMillSec => burstIntervalMillSec;
     }
 
     [Serializable]

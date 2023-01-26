@@ -13,4 +13,10 @@ namespace Signals
     public class IncrementScoreSignal
     {
     }
+
+    public class UpdateHealthSignal
+    {
+        public float MaxHealth;
+        public float CurrentHealth;
+    }
 }

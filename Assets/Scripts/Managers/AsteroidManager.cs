@@ -68,7 +68,7 @@ namespace Managers
 
         public void OnPlaying()
         {
-            // return;
+            return;
             var level = _scriptableSettings.Asteroid;
             if (Time.realtimeSinceStartup - _lastSpawnTime > level.SpawnIntervals &&
                 _activeAsteroids < level.MaxAsteroids)

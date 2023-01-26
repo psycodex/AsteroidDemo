@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Installers;
@@ -16,8 +17,10 @@ public class Asteroid : MonoBehaviour, IPoolable<IMemoryPool>, IDisposable
     [Inject] private GameManager _gameManager;
     [Inject] private AsteroidsPool _asteroidsPool;
     [Inject] private SignalBus _signalBus;
+    [Inject] private Play _play;
     private IMemoryPool _pool;
     private int _scale;
+    private float _size;
 
     public Rigidbody2D Rigidbody2D { get; private set; }
 
@@ -26,18 +29,22 @@ public class Asteroid : MonoBehaviour, IPoolable<IMemoryPool>, IDisposable
     public SpriteRenderer ARenderer { get; private set; }
     // public Transform Transform { get; private set; }
 
+    public float Size => _size;
+
     public void OnSpawned(IMemoryPool p2)
     {
         _pool = p2;
         Rigidbody2D = GetComponent<Rigidbody2D>();
         Collider2D = GetComponent<Collider2D>();
         ARenderer = GetComponent<SpriteRenderer>();
+        _size = _scriptableSettings.Asteroid.DefaultScale;
         transform.localScale = new Vector2(_scriptableSettings.Asteroid.DefaultScale,
             _scriptableSettings.Asteroid.DefaultScale);
     }
 
     public void OnDespawned()
     {
+        _size = _scriptableSettings.Asteroid.DefaultScale;
         transform.localScale = new Vector2(_scriptableSettings.Asteroid.DefaultScale,
             _scriptableSettings.Asteroid.DefaultScale);
         Rigidbody2D.mass = 1;
@@ -85,9 +92,15 @@ public class Asteroid : MonoBehaviour, IPoolable<IMemoryPool>, IDisposable
             return;
         }
 
+        _play.StartCoroutine(SpawnSubAsteroid(bulletVelocity, position, scale));
+    }
+
+    private IEnumerator SpawnSubAsteroid(Vector2 bulletVelocity, Vector3 position, int scale)
+    {
         Vector3 leftAsteroidDirection = Quaternion.Euler(0, 0, 45) * (bulletVelocity + Rigidbody2D.velocity);
         var leftAsteroid = _asteroidsPool.Add();
         leftAsteroid.SetMeta(position, leftAsteroidDirection, scale);
+        yield return new WaitForEndOfFrame();
         Vector3 rightAsteroidDirection = Quaternion.Euler(0, 0, -45) * (bulletVelocity + Rigidbody2D.velocity);
         var rightAsteroid = _asteroidsPool.Add();
         rightAsteroid.SetMeta(position, rightAsteroidDirection, scale);
@@ -97,9 +110,9 @@ public class Asteroid : MonoBehaviour, IPoolable<IMemoryPool>, IDisposable
     {
         _scale = scale;
         transform.position = position;
-        var size = Mathf.Pow(2, -scale);
-        var mass = size * _scriptableSettings.Asteroid.ScaleMassFactor;
-        transform.localScale = new Vector2(size, size);
+        _size = Mathf.Pow(2, -scale);
+        var mass = _size * _scriptableSettings.Asteroid.ScaleMassFactor;
+        transform.localScale = new Vector2(_size, _size);
         Rigidbody2D.mass = mass;
         Rigidbody2D.velocity = velocity;
     }

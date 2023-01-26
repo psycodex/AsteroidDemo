@@ -42,12 +42,14 @@ namespace Installers
                 .FromPoolableMemoryPool<Bullet, BulletFacadePool>(
                     poolBinder => poolBinder
                         .WithInitialSize(5)
+                        .WithMaxSize(30)
                         .FromComponentInNewPrefab(settings.Views.BulletPrefab)
                         .UnderTransform(settings.Views.Play.transform));
             Container.BindFactory<Asteroid, Asteroid.Factory>()
                 .FromPoolableMemoryPool<Asteroid, AsteroidFacadePool>(
                     poolBinder => poolBinder
                         .WithInitialSize(5)
+                        .WithMaxSize(10)
                         .FromComponentInNewPrefab(settings.Views.AsteroidPrefab)
                         .UnderTransform(settings.Views.Play.transform));
         }
@@ -59,6 +61,7 @@ namespace Installers
             Container.DeclareSignal<GameStartSignal>();
             Container.DeclareSignal<GameOverSignal>();
             Container.DeclareSignal<IncrementScoreSignal>();
+            Container.DeclareSignal<UpdateHealthSignal>();
         }
     }
 
