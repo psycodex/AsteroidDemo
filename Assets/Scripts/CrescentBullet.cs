@@ -6,7 +6,7 @@ using Installers;
 using UnityEngine;
 using Zenject;
 
-public class Bullet : MonoBehaviour, IPoolable<IMemoryPool>, IDisposable
+public class CrescentBullet : MonoBehaviour, IPoolable<IMemoryPool>, IDisposable
 {
     private IMemoryPool _pool;
     private float _startTime;
@@ -64,24 +64,25 @@ public class Bullet : MonoBehaviour, IPoolable<IMemoryPool>, IDisposable
         _pool.Despawn(this);
     }
 
-    public class BulletsPool
+    public class CrescentBulletsPool
     {
-        private readonly List<Bullet> _bullets = new List<Bullet>();
+        private readonly List<CrescentBullet> _bullets = new List<CrescentBullet>();
         private readonly Factory _factory;
+        [Inject] private GameScriptableSettings _scriptableSettings;
 
-        public BulletsPool(Factory factory)
+        public CrescentBulletsPool(Factory factory)
         {
             _factory = factory;
         }
 
-        public Bullet Add()
+        public CrescentBullet Add(Vector2 spawnPosition)
         {
             var bullet = _factory.Create();
             _bullets.Add(bullet);
             return bullet;
         }
 
-        public void Remove(Bullet bullet)
+        public void Remove(CrescentBullet bullet)
         {
             _bullets.Remove(bullet);
             bullet.Dispose();
@@ -97,7 +98,7 @@ public class Bullet : MonoBehaviour, IPoolable<IMemoryPool>, IDisposable
         }
     }
 
-    public class Factory : PlaceholderFactory<Bullet>
+    public class Factory : PlaceholderFactory<CrescentBullet>
     {
     }
 }

@@ -7,12 +7,16 @@ public class Player : MonoBehaviour
 {
     [Inject] private PlayerHandler _playerHandler;
     public GameObject spawnPoint;
+
+    [SerializeField] private GameObject shield;
     public Rigidbody2D Rigidbody2D { get; private set; }
 
     public Collider2D Collider2D { get; private set; }
     // public Transform Transform { get; private set; }
 
     public Vector2 Position => Rigidbody2D.position;
+
+    public GameObject Shield => shield;
 
     public Quaternion Rotation
     {
@@ -33,15 +37,31 @@ public class Player : MonoBehaviour
         TakeDamage(col);
     }
 
-    private void OnCollisionStay2D(Collision2D col)
-    {
-        TakeDamage(col);
-    }
-
     private void TakeDamage(Collision2D col)
     {
         if (!col.collider.CompareTag(Constants.TagAsteroid)) return;
         var asteroid = col.gameObject.GetComponent<Asteroid>();
         _playerHandler.TakeDamage(asteroid.Size);
+    }
+
+    public void OnPowerUp(Constants.PowerUpsType powerUpsType)
+    {
+        switch (powerUpsType)
+        {
+            case Constants.PowerUpsType.Shield:
+                EnableShield();
+                break;
+            case Constants.PowerUpsType.CrescentMoon:
+                EnableCrescentMoonBullets();
+                break;
+        }
+    }
+
+    private void EnableCrescentMoonBullets()
+    {
+    }
+
+    private void EnableShield()
+    {
     }
 }

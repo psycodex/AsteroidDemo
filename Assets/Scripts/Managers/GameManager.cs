@@ -9,10 +9,8 @@ namespace Managers
     public class GameManager : IInitializable, IDisposable
     {
         [Inject] private AsteroidManager _asteroidManager;
+        [Inject] private PowerUpManager _powerUpManager;
 
-        // [Inject] private GameSettings _settings;
-        // [Inject] private GameScriptableSettings _scriptableSettings;
-        // [Inject] private GamePlayView _playView;
         [Inject] private SignalBus _signalBus;
         [Inject] private Play _play;
         [Inject] private PlayerHandler _playerHandler;
@@ -46,6 +44,7 @@ namespace Managers
             while (CurrentState == Constants.GameStates.Playing)
             {
                 _asteroidManager.OnPlaying();
+                _powerUpManager.OnPlaying();
                 yield return new WaitForEndOfFrame();
             }
         }

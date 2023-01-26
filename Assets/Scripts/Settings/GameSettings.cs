@@ -16,8 +16,10 @@ namespace Settings
             [SerializeField] private GameObject player;
             [SerializeField] private GameObject play;
             [SerializeField] private GameObject bulletPrefab;
+            [SerializeField] private GameObject crescentBulletPrefab;
             [SerializeField] private GameObject asteroidPrefab;
             [SerializeField] private GameObject explosionPrefab;
+            [SerializeField] private GameObject powerUpPrefab;
 
             [SerializeField] private GameObject homeView;
             [SerializeField] private GameObject gamePlayView;
@@ -31,6 +33,8 @@ namespace Settings
 
             public GameObject Play => play;
             public GameObject BulletPrefab => bulletPrefab;
+
+            public GameObject CrescentBulletPrefab => crescentBulletPrefab;
             public GameObject AsteroidPrefab => asteroidPrefab;
 
             public GameObject ExplosionPrefab => explosionPrefab;
@@ -39,6 +43,8 @@ namespace Settings
 
             public GameObject GamePlayView => gamePlayView;
             public GameObject GameOverView => gameOverView;
+
+            public GameObject PowerUpPrefab => powerUpPrefab;
 
             #endregion
         }

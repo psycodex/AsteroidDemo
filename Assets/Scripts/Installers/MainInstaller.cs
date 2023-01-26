@@ -28,8 +28,11 @@ namespace Installers
             Container.BindInterfacesAndSelfTo<WorldManager>().AsSingle();
             Container.BindInterfacesAndSelfTo<PlayerHandler>().AsSingle();
             Container.BindInterfacesAndSelfTo<AsteroidManager>().AsSingle();
+            Container.BindInterfacesAndSelfTo<PowerUpManager>().AsSingle();
             Container.BindInterfacesAndSelfTo<GameManager>().AsSingle();
+            Container.Bind<PowerUp.PowerUpPool>().AsSingle();
             Container.Bind<Bullet.BulletsPool>().AsSingle();
+            Container.Bind<CrescentBullet.CrescentBulletsPool>().AsSingle();
             Container.Bind<Asteroid.AsteroidsPool>().AsSingle();
             Container.BindInterfacesAndSelfTo<Play>().FromComponentInHierarchy(settings.Views.Play).AsSingle();
             Container.BindInterfacesAndSelfTo<HomeView>().FromComponentInHierarchy(settings.Views.HomeView).AsSingle();
@@ -44,6 +47,20 @@ namespace Installers
                         .WithInitialSize(5)
                         .WithMaxSize(30)
                         .FromComponentInNewPrefab(settings.Views.BulletPrefab)
+                        .UnderTransform(settings.Views.Play.transform));
+            Container.BindFactory<CrescentBullet, CrescentBullet.Factory>()
+                .FromPoolableMemoryPool<CrescentBullet, CrescentFacadePool>(
+                    poolBinder => poolBinder
+                        .WithInitialSize(1)
+                        .WithMaxSize(10)
+                        .FromComponentInNewPrefab(settings.Views.CrescentBulletPrefab)
+                        .UnderTransform(settings.Views.Play.transform));
+            Container.BindFactory<Constants.PowerUpsType, PowerUp, PowerUp.Factory>()
+                .FromPoolableMemoryPool<Constants.PowerUpsType, PowerUp, PowerUpFacadePool>(
+                    poolBinder => poolBinder
+                        .WithInitialSize(1)
+                        .WithMaxSize(5)
+                        .FromComponentInNewPrefab(settings.Views.PowerUpPrefab)
                         .UnderTransform(settings.Views.Play.transform));
             Container.BindFactory<Asteroid, Asteroid.Factory>()
                 .FromPoolableMemoryPool<Asteroid, AsteroidFacadePool>(
@@ -65,7 +82,15 @@ namespace Installers
         }
     }
 
+    internal class PowerUpFacadePool : MonoPoolableMemoryPool<Constants.PowerUpsType, IMemoryPool, PowerUp>
+    {
+    }
+
     internal class BulletFacadePool : MonoPoolableMemoryPool<IMemoryPool, Bullet>
+    {
+    }
+
+    internal class CrescentFacadePool : MonoPoolableMemoryPool<IMemoryPool, CrescentBullet>
     {
     }
 

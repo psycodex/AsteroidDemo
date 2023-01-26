@@ -25,12 +25,14 @@ namespace Installers
         [SerializeField] private BulletSetting bulletSetting;
         [SerializeField] private AsteroidSetting asteroidSetting;
         [SerializeField] private LevelSetting levelSetting;
+        [SerializeField] private PowerUpSetting powerUpSetting;
 
         public WorldSetting World => worldSetting;
         public PlayerSetting Player => playerSetting;
         public BulletSetting Bullet => bulletSetting;
         public AsteroidSetting Asteroid => asteroidSetting;
         public LevelSetting Level => levelSetting;
+        public PowerUpSetting PowerUp => powerUpSetting;
     }
 
     [Serializable]
@@ -137,5 +139,16 @@ namespace Installers
     [Serializable]
     public class Level
     {
+    }
+
+    [Serializable]
+    public class PowerUpSetting
+    {
+        [SerializeField] private float spawnDurationInterval;
+        [SerializeField] private float powerUpLiveDuration;
+
+        public float SpawnDurationInterval => spawnDurationInterval;
+
+        public float PowerUpLiveDuration => powerUpLiveDuration;
     }
 }

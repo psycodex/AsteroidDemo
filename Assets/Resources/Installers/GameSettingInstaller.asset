@@ -35,7 +35,7 @@ MonoBehaviour:
       maxAsteroids: 8
       totalAsteroids: 10
       minSpeed: 1
-      maxSpeed: 5
+      maxSpeed: 2
       scaleMassFactor: 10
       minSize: 0.5
       maxSize: 2
@@ -43,3 +43,6 @@ MonoBehaviour:
       maxScale: 1
     levelSetting:
       levels: []
+    powerUpSetting:
+      spawnDurationInterval: 1
+      powerUpLiveDuration: 10

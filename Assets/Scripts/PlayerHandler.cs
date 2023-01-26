@@ -16,6 +16,7 @@ public class PlayerHandler : ITickable, IFixedTickable, ILateTickable
     [Inject] readonly GameSettings _gameSettings;
     [Inject] private GameScriptableSettings _scriptableSettings;
     [Inject] private readonly Bullet.BulletsPool _bulletsPool;
+    [Inject] private readonly CrescentBullet.CrescentBulletsPool _crescentBulletsPool;
     [Inject] private SignalBus _signalBus;
 
     private bool _isMovingLeft;
@@ -58,7 +59,8 @@ public class PlayerHandler : ITickable, IFixedTickable, ILateTickable
     {
         for (int i = 0; i < _scriptableSettings.Bullet.BurstMax; i++)
         {
-            var bullet = _bulletsPool.Add(position);
+            var bullet = _crescentBulletsPool.Add(position);
+            // var bullet = _bulletsPool.Add(position);
             var transform = bullet.transform;
             transform.position = position;
             transform.rotation = _player.spawnPoint.transform.rotation;

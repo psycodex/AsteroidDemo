@@ -27,6 +27,7 @@ namespace Managers
 
         private void SpawnInitialAsteroids()
         {
+            // return;
             int level = _gameManager.Level;
             for (int i = 0; i < _scriptableSettings.Asteroid.StartingSpawnAsteroids; i++)
             {
@@ -69,9 +70,9 @@ namespace Managers
         public void OnPlaying()
         {
             return;
-            var level = _scriptableSettings.Asteroid;
-            if (Time.realtimeSinceStartup - _lastSpawnTime > level.SpawnIntervals &&
-                _activeAsteroids < level.MaxAsteroids)
+            var asteroidSetting = _scriptableSettings.Asteroid;
+            if (Time.realtimeSinceStartup - _lastSpawnTime > asteroidSetting.SpawnIntervals &&
+                _activeAsteroids < asteroidSetting.MaxAsteroids)
             {
                 var asteroid = _asteroidsPool.Add();
                 GetRandomPositionAndVelocity(asteroid);
