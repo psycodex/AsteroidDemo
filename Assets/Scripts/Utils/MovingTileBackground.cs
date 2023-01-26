@@ -17,7 +17,6 @@ public class MovingTileBackground : MonoBehaviour
     void Update()
     {
         _offset.y += _speed * Time.deltaTime;
-        // _renderer.material.SetTextureOffset("_MainTex", new Vector2(0, -2.0f));
         _renderer.material.mainTextureOffset = _offset;
     }
 }

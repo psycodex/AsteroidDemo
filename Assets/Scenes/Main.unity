@@ -352,6 +352,7 @@ MonoBehaviour:
       play: {fileID: 698771448}
       bulletPrefab: {fileID: 1756886112580632375, guid: 2b6e98c2f8157418c93ef77d752f69c2, type: 3}
       asteroidPrefab: {fileID: 8145160877457071208, guid: cfedddb98f2b04b20831bc1457c906f1, type: 3}
+      explosionPrefab: {fileID: 100002, guid: 185972cb8011a1449b7360c07a62fdf2, type: 3}
       homeView: {fileID: 1022322621}
       gamePlayView: {fileID: 789732488}
       gameOverView: {fileID: 267724026}
@@ -954,7 +955,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6609313434060054726, guid: 859a5c10e5bde432aa169f701a8f667b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.379
       objectReference: {fileID: 0}
     - target: {fileID: 6609313434060054726, guid: 859a5c10e5bde432aa169f701a8f667b, type: 3}
       propertyPath: m_LocalPosition.z

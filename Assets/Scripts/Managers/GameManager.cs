@@ -1,28 +1,22 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using Installers;
-using Settings;
 using Signals;
-using UI;
 using UnityEngine;
 using Zenject;
 
 namespace Managers
 {
-    public class GameManager : IInitializable, IDisposable //, ITickable
+    public class GameManager : IInitializable, IDisposable
     {
         [Inject] private AsteroidManager _asteroidManager;
-        [Inject] private GameSettings _settings;
-
-        [Inject] private GameScriptableSettings _scriptableSettings;
+        // [Inject] private GameSettings _settings;
+        // [Inject] private GameScriptableSettings _scriptableSettings;
+        // [Inject] private GamePlayView _playView;
         [Inject] private SignalBus _signalBus;
-        [Inject] private GamePlayView _playView;
         [Inject] private Play _play;
         [Inject] private PlayerHandler _playerHandler;
 
         public int Level { get; private set; }
-        public Constants.GameStates OldState { get; private set; }
         public Constants.GameStates CurrentState { get; private set; }
 
         public void Initialize()

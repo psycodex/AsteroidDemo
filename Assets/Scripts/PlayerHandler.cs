@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Installers;
 using Managers;
 using Settings;
@@ -83,9 +84,14 @@ public class PlayerHandler : ITickable, IFixedTickable, ILateTickable
         }
     }
 
-    public void TakeDamage()
+    public async void TakeDamage()
     {
         _signalBus.Fire<GameOverSignal>();
+        _player.gameObject.SetActive(false);
+        var transform = _player.transform;
+        var explosionObject = Object.Instantiate(_gameSettings.Views.ExplosionPrefab, transform.position,
+            transform.rotation);
+        Object.Destroy(explosionObject, 1500);
     }
 
     public void LateTick()
@@ -95,6 +101,7 @@ public class PlayerHandler : ITickable, IFixedTickable, ILateTickable
 
     public void Reset()
     {
+        _player.gameObject.SetActive(true);
         _player.Rigidbody2D.velocity = Vector2.zero;
         _player.transform.position = Vector2.zero;
         _player.Rotation = Quaternion.identity;
