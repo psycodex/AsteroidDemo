@@ -16,8 +16,6 @@ namespace Managers
         [Inject] private GameManager _gameManager;
 
         private float _lastSpawnTime;
-        private int _activeAsteroids;
-        private int _totalLevelAsteroidSpawned;
 
         public void ResetAndStart()
         {
@@ -71,10 +69,17 @@ namespace Managers
         {
             var asteroidSetting = _scriptableSettings.Asteroid;
             var level = _scriptableSettings.Level.Levels[_gameManager.Level];
-            var shouldSpawn = Time.realtimeSinceStartup - _lastSpawnTime >
-                asteroidSetting.InitialSpawnIntervals + level.DeltaSpawnAsteroidsIntervals &&
-                _activeAsteroids < asteroidSetting.MaxAsteroids || _asteroidsPool.Asteroids.Count <
-                asteroidSetting.MinAsteroids + level.DeltaMinAsteroids;
+            bool shouldSpawn = false;
+            if (Time.realtimeSinceStartup - _lastSpawnTime >
+                asteroidSetting.InitialSpawnIntervals + level.DeltaSpawnAsteroidsIntervals)
+            {
+                shouldSpawn = true;
+            }
+            else if (_asteroidsPool.Asteroids.Count <
+                     asteroidSetting.MinAsteroids + level.DeltaMinAsteroids)
+            {
+                shouldSpawn = true;
+            }
 
             if (!shouldSpawn) return;
             var asteroid = _asteroidsPool.Add();

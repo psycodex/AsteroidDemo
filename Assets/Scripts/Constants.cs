@@ -7,7 +7,7 @@ public class Constants
         GameOver
     }
 
-    public const string TagPlayer = "Ship";
+    public const string TagPlayer = "Player";
     public const string TagAsteroid = "Asteroid";
     public const string TagBullet = "Bullet";
 

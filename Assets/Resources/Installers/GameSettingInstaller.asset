@@ -15,6 +15,7 @@ MonoBehaviour:
   settings:
     worldSetting:
       targetFps: 60
+      initialLevelTime: 10
     playerSetting:
       health: 10
       moveSpeed: 5
@@ -30,10 +31,9 @@ MonoBehaviour:
       burstIntervalMillSec: 0.03
     asteroidSetting:
       startingSpawnAsteroids: 5
-      spawnIntervals: 1
+      initialSpawnIntervals: 20
       minAsteroids: 5
       maxAsteroids: 8
-      totalAsteroids: 10
       minSpeed: 1
       maxSpeed: 2
       scaleMassFactor: 10
@@ -41,9 +41,59 @@ MonoBehaviour:
       maxSize: 2
       defaultScale: -1
       maxScale: 1
-    levelSetting:
-      levels: []
     powerUpSetting:
       spawnDurationInterval: 10
       spawnPowerUpLiveDuration: 10
       playerPowerUpLiveDuration: 5
+    levelSetting:
+      levels:
+      - deltaLevelDuration: 1
+        deltaMinAsteroids: 1
+        deltaSpawnAsteroidsIntervals: 1
+        deltaAsteroidVelocity: 1
+        deltaPowerUpSpawnIntervals: 1
+      - deltaLevelDuration: 1
+        deltaMinAsteroids: 1
+        deltaSpawnAsteroidsIntervals: 1
+        deltaAsteroidVelocity: 1
+        deltaPowerUpSpawnIntervals: 1
+      - deltaLevelDuration: 1
+        deltaMinAsteroids: 1
+        deltaSpawnAsteroidsIntervals: 1
+        deltaAsteroidVelocity: 1
+        deltaPowerUpSpawnIntervals: 1
+      - deltaLevelDuration: 1
+        deltaMinAsteroids: 1
+        deltaSpawnAsteroidsIntervals: 1
+        deltaAsteroidVelocity: 1
+        deltaPowerUpSpawnIntervals: 1
+      - deltaLevelDuration: 1
+        deltaMinAsteroids: 1
+        deltaSpawnAsteroidsIntervals: 1
+        deltaAsteroidVelocity: 1
+        deltaPowerUpSpawnIntervals: 1
+      - deltaLevelDuration: 1
+        deltaMinAsteroids: 1
+        deltaSpawnAsteroidsIntervals: 1
+        deltaAsteroidVelocity: 1
+        deltaPowerUpSpawnIntervals: 1
+      - deltaLevelDuration: 1
+        deltaMinAsteroids: 1
+        deltaSpawnAsteroidsIntervals: 1
+        deltaAsteroidVelocity: 1
+        deltaPowerUpSpawnIntervals: 1
+      - deltaLevelDuration: 1
+        deltaMinAsteroids: 1
+        deltaSpawnAsteroidsIntervals: 1
+        deltaAsteroidVelocity: 1
+        deltaPowerUpSpawnIntervals: 1
+      - deltaLevelDuration: 1
+        deltaMinAsteroids: 1
+        deltaSpawnAsteroidsIntervals: 1
+        deltaAsteroidVelocity: 1
+        deltaPowerUpSpawnIntervals: 1
+      - deltaLevelDuration: 1
+        deltaMinAsteroids: 1
+        deltaSpawnAsteroidsIntervals: 1
+        deltaAsteroidVelocity: 1
+        deltaPowerUpSpawnIntervals: 1
