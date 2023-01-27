@@ -12,6 +12,7 @@ namespace Managers
         [Inject] private WorldManager _worldManager;
         [Inject] private PowerUp.PowerUpPool _powerUpPool;
         private float _lastSpawnTime;
+        [Inject] private PlayerHandler _playerHandler;
 
         public void Initialize()
         {
@@ -21,9 +22,15 @@ namespace Managers
         public void OnPlaying()
         {
             var powerUpSetting = _scriptableSettings.PowerUp;
-            if (Time.realtimeSinceStartup - _lastSpawnTime > powerUpSetting.SpawnDurationInterval)
+            if (Time.realtimeSinceStartup - _lastSpawnTime > powerUpSetting.SpawnDurationInterval &&
+                !_playerHandler.IsShieldActive && !_playerHandler.IsCrescentMoonBulletActive)
             {
-                var powerUp = _powerUpPool.Add(Constants.PowerUpsType.Shield);
+                var type = Random.Range(1, 11) % 2 == 0
+                    ? Constants.PowerUpsType.Shield
+                    : Constants.PowerUpsType.Default;
+
+                var powerUp = _powerUpPool.Add(type);
+
                 _lastSpawnTime = Time.realtimeSinceStartup;
                 GetRandomPositionAndVelocity(powerUp);
             }
@@ -31,8 +38,8 @@ namespace Managers
 
         public void GetRandomPositionAndVelocity(PowerUp powerUp)
         {
-            var minSpeed = _scriptableSettings.Asteroid.MinSpeed;
-            var maxSpeed = _scriptableSettings.Asteroid.MaxSpeed;
+            // var minSpeed = _scriptableSettings.Asteroid.MinSpeed;
+            // var maxSpeed = _scriptableSettings.Asteroid.MaxSpeed;
 
             var x = Random.Range(-_worldManager.Width, _worldManager.Width);
             var y = Random.Range(-_worldManager.Height, _worldManager.Height);
@@ -41,7 +48,7 @@ namespace Managers
             var randomDirection = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0);
             var dir = randomDirection.normalized;
 
-            var velocity = Random.Range(minSpeed, maxSpeed) * dir;
+            // var velocity = Random.Range(minSpeed, maxSpeed) * dir;
 
             powerUp.transform.position = position;
             // powerUp.Rigidbody2D.velocity = velocity;

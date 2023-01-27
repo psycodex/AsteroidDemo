@@ -67,7 +67,7 @@ public class Asteroid : MonoBehaviour, IPoolable<IMemoryPool>, IDisposable
             return;
         }
 
-        int level = _gameManager.Level;
+        // int level = _gameManager.Level;
         if (Rigidbody2D.velocity.magnitude < _scriptableSettings.Asteroid.MinSpeed)
         {
             var dir = Rigidbody2D.velocity.normalized;

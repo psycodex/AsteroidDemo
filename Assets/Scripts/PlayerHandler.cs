@@ -33,6 +33,9 @@ public class PlayerHandler : ITickable, IFixedTickable, ILateTickable
     private float _shieldActiveTime;
     private float _crescentMoonBulletsActiveTime;
 
+    public bool IsShieldActive => _isShieldActive;
+
+    public bool IsCrescentMoonBulletActive => _isCrescentMoonBulletActive;
     public void Tick()
     {
         if (_gameManager.CurrentState != Constants.GameStates.Playing)
@@ -78,20 +81,25 @@ public class PlayerHandler : ITickable, IFixedTickable, ILateTickable
     {
         for (int i = 0; i < _scriptableSettings.Bullet.BurstMax; i++)
         {
-            // if (_isCrescentMoonBulletActive)
-            // {
-            // var bullet = _crescentBulletsPool.Add();
-            // }
-            // else
-            // {
-            var bullet = _bulletsPool.Add();
-            // }
+            if (_isCrescentMoonBulletActive)
+            {
+                var bullet = _crescentBulletsPool.Add();
+                var transform = bullet.transform;
+                transform.position = position;
+                transform.rotation = _player.spawnPoint.transform.rotation;
+                bullet.Rigidbody2D.velocity =
+                    (_player.Rigidbody2D.transform.up * _scriptableSettings.Bullet.BulletSpeed);
+            }
+            else
+            {
+                var bullet = _bulletsPool.Add();
+                var transform = bullet.transform;
+                transform.position = position;
+                transform.rotation = _player.spawnPoint.transform.rotation;
+                bullet.Rigidbody2D.velocity =
+                    (_player.Rigidbody2D.transform.up * _scriptableSettings.Bullet.BulletSpeed);
+            }
 
-            var transform = bullet.transform;
-            transform.position = position;
-            transform.rotation = _player.spawnPoint.transform.rotation;
-            bullet.Rigidbody2D.velocity =
-                (_player.Rigidbody2D.transform.up * _scriptableSettings.Bullet.BulletSpeed);
             yield return new WaitForSeconds(_scriptableSettings.Bullet.BurstIntervalMillSec);
         }
     }
@@ -117,7 +125,7 @@ public class PlayerHandler : ITickable, IFixedTickable, ILateTickable
         if (_isMovingDown)
         {
             _player.Rigidbody2D.AddForce(
-                Vector3.down * _scriptableSettings.Player.MoveSpeed);
+                -_player.transform.up * _scriptableSettings.Player.MoveSpeed);
         }
     }
 

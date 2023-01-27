@@ -44,5 +44,6 @@ MonoBehaviour:
     levelSetting:
       levels: []
     powerUpSetting:
-      spawnDurationInterval: 1
-      powerUpLiveDuration: 10
+      spawnDurationInterval: 10
+      spawnPowerUpLiveDuration: 10
+      playerPowerUpLiveDuration: 5
