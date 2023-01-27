@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Zenject;
-using Zenject.Asteroids;
 
 namespace Installers
 {
@@ -25,35 +24,25 @@ namespace Installers
         [SerializeField] private PlayerSetting playerSetting;
         [SerializeField] private BulletSetting bulletSetting;
         [SerializeField] private AsteroidSetting asteroidSetting;
-        [SerializeField] private LevelSetting levelSetting;
         [SerializeField] private PowerUpSetting powerUpSetting;
+        [SerializeField] private LevelSetting levelSetting;
 
         public WorldSetting World => worldSetting;
         public PlayerSetting Player => playerSetting;
         public BulletSetting Bullet => bulletSetting;
         public AsteroidSetting Asteroid => asteroidSetting;
-        public LevelSetting Level => levelSetting;
         public PowerUpSetting PowerUp => powerUpSetting;
+        public LevelSetting Level => levelSetting;
     }
 
     [Serializable]
     public class WorldSetting
     {
-        #region Properties
+        [SerializeField] private int targetFps = 60;
+        [SerializeField] private float initialLevelTime = 10f;
 
         public int TargetFps => targetFps;
-
-        #endregion
-
-        #region Fields
-
-        [SerializeField] private int targetFps = 60;
-
-        #endregion
-
-        #region Methods
-
-        #endregion
+        public float InitialLevelTime => initialLevelTime;
     }
 
     [Serializable]
@@ -106,10 +95,11 @@ namespace Installers
     public class AsteroidSetting
     {
         [SerializeField] private int startingSpawnAsteroids = 6;
-        [SerializeField] private float spawnIntervals = 1;
+
+        [SerializeField] private float initialSpawnIntervals = 1;
+
         [SerializeField] private float minAsteroids = 1;
         [SerializeField] private float maxAsteroids = 10;
-        [SerializeField] private float totalAsteroids = 10;
 
         [SerializeField] private float minSpeed = 1;
         [SerializeField] private float maxSpeed = 5;
@@ -122,11 +112,10 @@ namespace Installers
 
         public float MinAsteroids => minAsteroids;
         public float MaxAsteroids => maxAsteroids;
-        public float TotalAsteroids => totalAsteroids;
         public float MinSpeed => minSpeed;
         public float MaxSpeed => maxSpeed;
         public int StartingSpawnAsteroids => startingSpawnAsteroids;
-        public float SpawnIntervals => spawnIntervals;
+        public float InitialSpawnIntervals => initialSpawnIntervals;
 
         public float MinSize => minSize;
         public float MaxSize => maxSize;
@@ -140,6 +129,18 @@ namespace Installers
     [Serializable]
     public class Level
     {
+        [SerializeField] private float deltaLevelDuration;
+
+        [SerializeField] private float deltaMinAsteroids;
+        [SerializeField] private float deltaSpawnAsteroidsIntervals;
+        [SerializeField] private float deltaAsteroidVelocity;
+        [SerializeField] private float deltaPowerUpSpawnIntervals;
+
+        public float DeltaLevelDuration => deltaLevelDuration;
+        public float DeltaMinAsteroids => deltaMinAsteroids;
+        public float DeltaSpawnAsteroidsIntervals => deltaSpawnAsteroidsIntervals;
+        public float DeltaAsteroidVelocity => deltaAsteroidVelocity;
+        public float DeltaPowerUpSpawnIntervals => deltaPowerUpSpawnIntervals;
     }
 
     [Serializable]

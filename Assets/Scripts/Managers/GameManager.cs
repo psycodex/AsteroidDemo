@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Installers;
 using Signals;
 using UnityEngine;
 using Zenject;
@@ -8,6 +9,7 @@ namespace Managers
 {
     public class GameManager : IInitializable, IDisposable
     {
+        [Inject] private GameScriptableSettings _scriptableSettings;
         [Inject] private AsteroidManager _asteroidManager;
         [Inject] private PowerUpManager _powerUpManager;
 
@@ -15,7 +17,21 @@ namespace Managers
         [Inject] private Play _play;
         [Inject] private PlayerHandler _playerHandler;
 
-        public int Level { get; private set; }
+        private float _lastLevelTime;
+        private int _level;
+
+        public int Level
+        {
+            get => _level;
+            private set
+            {
+                if (value < _scriptableSettings.Level.Levels.Count)
+                {
+                    _level = value;
+                }
+            }
+        }
+
         public Constants.GameStates CurrentState { get; private set; }
 
         public void Initialize()
@@ -33,6 +49,7 @@ namespace Managers
         private void OnGameStartSignal()
         {
             Level = 0;
+            _lastLevelTime = Time.realtimeSinceStartup;
             CurrentState = Constants.GameStates.Playing;
             _playerHandler.Reset();
             _asteroidManager.ResetAndStart();
@@ -43,6 +60,13 @@ namespace Managers
         {
             while (CurrentState == Constants.GameStates.Playing)
             {
+                var levelSetting = _scriptableSettings.Level.Levels[Level];
+                if (Time.realtimeSinceStartup - _lastLevelTime >
+                    _scriptableSettings.World.InitialLevelTime + levelSetting.DeltaLevelDuration)
+                {
+                    Level++;
+                }
+
                 _asteroidManager.OnPlaying();
                 _powerUpManager.OnPlaying();
                 yield return new WaitForEndOfFrame();

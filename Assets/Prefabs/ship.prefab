@@ -47,7 +47,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1817626711
 Transform:
   m_ObjectHideFlags: 0
@@ -4961,7 +4961,7 @@ GameObject:
   - component: {fileID: 1711990321}
   m_Layer: 7
   m_Name: Ship
-  m_TagString: ship
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

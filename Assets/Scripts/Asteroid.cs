@@ -134,6 +134,7 @@ public class Asteroid : MonoBehaviour, IPoolable<IMemoryPool>, IDisposable
 
         private readonly Factory _factory;
 
+        public List<Asteroid> Asteroids => _asteroids;
         public AsteroidsPool(Factory factory)
         {
             _factory = factory;

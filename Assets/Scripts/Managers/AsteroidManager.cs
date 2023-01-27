@@ -69,15 +69,17 @@ namespace Managers
 
         public void OnPlaying()
         {
-            return;
             var asteroidSetting = _scriptableSettings.Asteroid;
-            if (Time.realtimeSinceStartup - _lastSpawnTime > asteroidSetting.SpawnIntervals &&
-                _activeAsteroids < asteroidSetting.MaxAsteroids)
-            {
-                var asteroid = _asteroidsPool.Add();
-                GetRandomPositionAndVelocity(asteroid);
-                _lastSpawnTime = Time.realtimeSinceStartup;
-            }
+            var level = _scriptableSettings.Level.Levels[_gameManager.Level];
+            var shouldSpawn = Time.realtimeSinceStartup - _lastSpawnTime >
+                asteroidSetting.InitialSpawnIntervals + level.DeltaSpawnAsteroidsIntervals &&
+                _activeAsteroids < asteroidSetting.MaxAsteroids || _asteroidsPool.Asteroids.Count <
+                asteroidSetting.MinAsteroids + level.DeltaMinAsteroids;
+
+            if (!shouldSpawn) return;
+            var asteroid = _asteroidsPool.Add();
+            GetRandomPositionAndVelocity(asteroid);
+            _lastSpawnTime = Time.realtimeSinceStartup;
         }
     }
 }

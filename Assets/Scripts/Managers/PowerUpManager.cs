@@ -10,6 +10,7 @@ namespace Managers
     {
         [Inject] private GameScriptableSettings _scriptableSettings;
         [Inject] private WorldManager _worldManager;
+        [Inject] private GameManager _gameManager;
         [Inject] private PowerUp.PowerUpPool _powerUpPool;
         private float _lastSpawnTime;
         [Inject] private PlayerHandler _playerHandler;
@@ -22,12 +23,14 @@ namespace Managers
         public void OnPlaying()
         {
             var powerUpSetting = _scriptableSettings.PowerUp;
-            if (Time.realtimeSinceStartup - _lastSpawnTime > powerUpSetting.SpawnDurationInterval &&
+            var levelSetting = _scriptableSettings.Level.Levels[_gameManager.Level];
+            if (Time.realtimeSinceStartup - _lastSpawnTime >
+                powerUpSetting.SpawnDurationInterval + levelSetting.DeltaPowerUpSpawnIntervals &&
                 !_playerHandler.IsShieldActive && !_playerHandler.IsCrescentMoonBulletActive)
             {
                 var type = Random.Range(1, 11) % 2 == 0
                     ? Constants.PowerUpsType.Shield
-                    : Constants.PowerUpsType.Default;
+                    : Constants.PowerUpsType.CrescentMoon;
 
                 var powerUp = _powerUpPool.Add(type);
 

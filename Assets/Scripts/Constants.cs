@@ -7,9 +7,9 @@ public class Constants
         GameOver
     }
 
-    public const string TagPlayer = "ship";
-    public const string TagAsteroid = "asteroid";
-    public const string TagBullet = "bullet";
+    public const string TagPlayer = "Ship";
+    public const string TagAsteroid = "Asteroid";
+    public const string TagBullet = "Bullet";
 
     public enum PowerUpsType
     {
